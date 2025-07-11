@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>UtcMilliTime</PackageId>
     <Authors>John Kusumi</Authors>
     <Company>JPKusumi</Company>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
