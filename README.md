@@ -39,9 +39,9 @@ static async Task Main(string[] args)
 ```
 ### Features
 
-• Unix Time Milliseconds: `Time.Now` returns milliseconds since 1/1/1970 UTC.
-• NTP Synchronization: Syncs with NTP when `SuppressNetworkCalls = false`.
-• ISO-8601 Conversion: `ToIso8601String(true)` for seconds (2025-07-10T13:00:00Z), or without parameter for milliseconds.
+• Unix Time Milliseconds: `Time.Now` returns milliseconds since 1/1/1970 UTC.  
+• NTP Synchronization: Syncs with NTP when `SuppressNetworkCalls = false`.  
+• ISO-8601 Conversion: `ToIso8601String(true)` for seconds (2025-07-10T13:00:00Z), or without parameter for milliseconds.  
 • Cross-Platform: Runs on Windows, Linux, macOS with .NET 8.0.
 
 We should emphasize this line—
@@ -57,9 +57,9 @@ With that permission, and subject to connectivity, the clock will synchronize it
 ```
 Time.NetworkTimeAcquired += (sender, e) => Console.WriteLine($"Synced with {e.Server}, Skew: {e.Skew}ms");
 ```
-Notes
-Silent Failure: `SelfUpdateAsync` fails silently if connectivity is absent. Check `Time.Synchronized` for a `true` or `false` value — success in synchronizing.
-Leap Seconds: Clock advances during leap seconds, appearing 1 second ahead. Call `Time.SelfUpdateAsync()` to resync.
+Notes  
+Silent Failure: `SelfUpdateAsync` fails silently if connectivity is absent. Check `Time.Synchronized` for a `true` or `false` value — success in synchronizing.  
+Leap Seconds: Clock advances during leap seconds, appearing 1 second ahead. Call `Time.SelfUpdateAsync()` to resync.  
 Performance: Use `Time.Now` for maximum performance; `ToIso8601String` is slower due to DateTime.
 
 ### Upgrading from 1.0.1
