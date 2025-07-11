@@ -54,13 +54,11 @@ namespace UtcMilliTime
             }
         }
 
-        public static async Task<Clock> CreateAsync(string ntpServerHostName = Constants.fallback_server)
+        public static Task<Clock> CreateAsync()
         {
-            var clock = Time; // Ensure singleton instance
-            await clock.SelfUpdateAsync(ntpServerHostName).ConfigureAwait(false);
-            return clock;
+            var clock = Time; // Ensure lazy singleton init (sync, device time)
+            return Task.FromResult(clock); // Return immediately; no await needed yet
         }
-
         private void NetworkChange_NetworkAvailabilityChanged(object sender, NetworkAvailabilityEventArgs e)
         {
             if (Indicated)
