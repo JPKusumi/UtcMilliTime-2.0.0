@@ -74,32 +74,42 @@ public static partial class Extensions
     /// Converts a UtcMilliTime interval to a TimeSpan (or from 1970 if absolute).
     /// </summary>
     public static TimeSpan ToTimeSpan(this long interval) => new(interval * Constants.dotnet_ticks_per_millisecond);
-
+    /// <summary>
+    /// The whole number of days in an interval found in UtcMilliTime
+    /// </summary>
+    /// <param name="interval">UtcMilliTime</param>
+    /// <returns>int</returns>
     public static int IntervalDays(this long interval)
     {
         return TimeSpan.FromMilliseconds(interval).Days;
     }
-
+    /// <summary>
+    /// Whole hours in the remainder after days are removed from an interval
+    /// </summary>
+    /// <param name="interval">UtcMilliTime</param>
+    /// <returns>int</returns>
     public static int IntervalHoursPart(this long interval)
     {
         return TimeSpan.FromMilliseconds(interval).Hours;
     }
-
+    /// <summary>
+    /// Whole minutes in the remainder after days and hours are removed from an interval
+    /// </summary>
+    /// <param name="interval">UtcMilliTime</param>
+    /// <returns>int</returns>
     public static int IntervalMinutesPart(this long interval)
     {
         return TimeSpan.FromMilliseconds(interval).Minutes;
     }
-
+    /// <summary>
+    /// Whole seconds in the remainder after removing days, hours, and minutes from an interval
+    /// </summary>
+    /// <param name="interval">UtcMilliTime</param>
+    /// <returns>int</returns>
     public static int IntervalSecondsPart(this long interval)
     {
         return TimeSpan.FromMilliseconds(interval).Seconds;
     }
-
-    public static int IntervalMillisecondsPart(this long interval)
-    {
-        return TimeSpan.FromMilliseconds(interval).Milliseconds;
-    }
-
     /// <summary>
     /// Safely fire-and-forget an async task with optional exception handling.
     /// </summary>
