@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>John Kusumi</Authors>
+    <Company>JPKusumi</Company>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/JPKusumi/UtcMilliTime</PackageProjectUrl>
+    <Description>UtcMilliTime for .NET 8.0 provides Unix time milliseconds (Int64) timestamps, similar to JavaScript's Date.now(), with cross-platform support and NTP synchronization. Features Task-based async APIs, async Main support, and conversion extensions (ToIso8601String, ToUtcDateTime, etc.). Version 1.0.1 remains available for .NET Standard 2.0 (Windows-only).
+
+Usage:
+using UtcMilliTime;
+ITime Time = Clock.Time;
+Time.SuppressNetworkCalls = false; // Enable NTP sync
+var timestamp = Time.Now; // Int64 timestamp
+string iso = timestamp.ToIso8601String(); // ISO-8601 string
+
+For async Main:
+await Clock.CreateAsync();
+
+See https://github.com/JPKusumi/UtcMilliTime for details.</Description>
+    <Copyright>2019-2025</Copyright>
+    <Product>UtcMilliTime for .NET by JPKusumi</Product>
+    <PackageTags>time timestamp csharp c-sharp clock ntp ntp-client unix-timestamp milliseconds date datetime timezone calendar unix-epoch timestamps ntpclient-library utcmillitime unixtimemilliseconds cross-platform</PackageTags>
+    <PackageReleaseNotes>Version 2.0.0: Updated to .NET 8.0 with cross-platform support (Environment.TickCount64), Task-based async APIs, CreateAsync factory, preserved all 1.0.1 extension methods. Version 1.0.1 available for .NET Standard 2.0. See https://github.com/JPKusumi/UtcMilliTime.</PackageReleaseNotes>
+    <Version>2.0.0</Version>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="ReadMe.txt">
+      <Pack>true</Pack>
+      <PackagePath>\</PackagePath>
+    </Content>
+  </ItemGroup>
+</Project>
