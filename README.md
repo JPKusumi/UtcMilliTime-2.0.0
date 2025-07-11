@@ -36,16 +36,17 @@ using UtcMilliTime;
 With permission, and subject to connectivity, the clock will synchronize itself to network time.
 
 ### Supporting Async Main
-For async initialization (e.g., in `async Main`) or to specify an NTP server on startup:
+For async initialization in contexts like `async Main` (returns the shared clock instance):
 ```
 static async Task Main(string[] args)
 {
-    var clock = await Clock.CreateAsync("pool.ntp.org");
-    clock.SuppressNetworkCalls = false; // Enable sync
+    var clock = await Clock.CreateAsync();
+    clock.SuppressNetworkCalls = false; // Enable sync (triggers SelfUpdateAsync if indicated)
     Console.WriteLine($"Synchronized: {clock.Synchronized}, Time: {clock.Now}, ISO: {clock.Now.ToIso8601String()}");
+    // For custom server: await clock.SelfUpdateAsync("custom.ntp.org");
 }
 ```
-**Note**: Due to the singleton design, `CreateAsync` always returns the shared clock instance. The NTP server parameter applies during the initial sync (or re-sync on subsequent calls). For isolation, consider subclassing if needed.
+**Note**: `CreateAsync` initializes and returns the singleton clock (using device time). Synchronization happens only after setting `SuppressNetworkCalls = false` (via the setter's logic) or manual `SelfUpdateAsync` calls. This ensures no unintended network traffic.
 
 ### NetworkTimeAcquired Event
 Subscribe to events on the shared instance:
