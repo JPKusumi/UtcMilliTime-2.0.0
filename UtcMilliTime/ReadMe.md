@@ -37,7 +37,7 @@ With permission, and subject to connectivity, the clock will synchronize itself 
 
 ### Supporting Async Main
 For async initialization in contexts like `async Main` (returns the shared clock instance):
-
+```
 static async Task Main(string[] args)
 {
     var clock = await Clock.CreateAsync();
@@ -45,7 +45,7 @@ static async Task Main(string[] args)
     Console.WriteLine($"Synchronized: {clock.Synchronized}, Time: {clock.Now}, ISO: {clock.Now.ToIso8601String()}");
     // For custom server: await clock.SelfUpdateAsync("custom.ntp.org");
 }
-
+```
 **Note**: `CreateAsync` initializes and returns the singleton clock (using device time). Synchronization happens only after setting `SuppressNetworkCalls = false` (via the setter's logic) or manual `SelfUpdateAsync` calls. This ensures no unintended network traffic.
 
 ### NetworkTimeAcquired Event
