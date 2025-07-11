@@ -57,7 +57,7 @@ With that permission, and subject to connectivity, the clock will synchronize it
 ```
 Time.NetworkTimeAcquired += (sender, e) => Console.WriteLine($"Synced with {e.Server}, Skew: {e.Skew}ms");
 ```
-Notes  
+### Notes  
 Silent Failure: `SelfUpdateAsync` fails silently if connectivity is absent. Check `Time.Synchronized` for a `true` or `false` value — success in synchronizing.  
 Leap Seconds: Clock advances during leap seconds, appearing 1 second ahead. Call `Time.SelfUpdateAsync()` to resync.  
 Performance: Use `Time.Now` for maximum performance; `ToIso8601String` is slower due to `DateTime`.
