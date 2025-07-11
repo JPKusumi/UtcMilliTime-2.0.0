@@ -2,7 +2,7 @@
 
 UtcMilliTime is a C# time component (software-defined clock) that yields Unix time milliseconds (`Int64`) timestamps, similar to JavaScript's `Date.now()`. It synchronizes with NTP servers and is cross-platform for .NET 8.0, supporting async `Main`. Mock-friendly via the `ITime` interface.
 
-On NuGet at: https://www.nuget.org/packages/UtcMilliTime/
+On NuGet at: https://www.nuget.org/packages/UtcMilliTime/  
 On GitHub at: https://github.com/JPKusumi/UtcMilliTime
 
 ## Versions
