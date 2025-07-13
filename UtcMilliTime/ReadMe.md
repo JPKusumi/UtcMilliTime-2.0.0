@@ -62,7 +62,7 @@ Clock.Time.NetworkTimeAcquired += (sender, e) => Console.WriteLine($"Synced with
 ### Upgrading from 1.0.1
 Version 2.0.0: Targets .NET 8.0, adds cross-platform support and `CreateAsync`. Public API unchanged (static `Clock.Time.Now` still works as a singleton).
 
-Migration: Update to .NET 8.0+. Static usage remains the same; for async Main or custom NTP on init, use `await Clock.CreateAsync()`—it returns the shared clock for consistency.
+Migration: Update to .NET 8.0+. Static usage remains the same; for async Main, use `await Clock.CreateAsync()`—it returns the shared clock for consistency.
 
 ### Technical Details
 Uses `Environment.TickCount64` for cross-platform uptime and `DateTime.UtcNow` for device time. Now is calculated as `device_boot_time + device_uptime`. The clock is a singleton to ensure consistent time across the app.
