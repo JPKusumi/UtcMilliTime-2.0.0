@@ -30,7 +30,7 @@ See https://github.com/JPKusumi/UtcMilliTime for details.</Description>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="ReadMe.txt">
+    <Content Include="readme.txt">
       <Pack>true</Pack>
       <PackagePath>\</PackagePath>
     </Content>
