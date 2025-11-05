@@ -15,9 +15,13 @@ namespace UtcMilliTime
         private static bool successfully_synced;
         private static bool suppress_network_calls = true;
         private static bool Indicated => !suppress_network_calls && !successfully_synced && NetworkInterface.GetIsNetworkAvailable();
-        private static long device_uptime => Environment.TickCount64;
         private static long device_boot_time;
         private static NTPCallState? ntpCall;
+
+        // High-res uptime fields
+        private static long initQpcTimestamp; // High-res ref at app init
+        private static long qpcFrequency;
+        private static long initialSystemUptimeMs; // Low-res system uptime at app init (bootstrap for high-res)
 
         public bool Initialized => device_boot_time != 0;
         public bool SuppressNetworkCalls
@@ -37,9 +41,9 @@ namespace UtcMilliTime
         }
         public bool Synchronized => successfully_synced;
         public long DeviceBootTime => device_boot_time;
-        public long DeviceUpTime => device_uptime;
+        public long DeviceUpTime => GetHighResUptime();
         public long DeviceUtcNow => GetDeviceTime();
-        public long Now => device_boot_time + device_uptime;
+        public long Now => device_boot_time + GetHighResUptime();
         public long Skew { get; private set; }
         public string DefaultServer { get; set; } = Constants.fallback_server;
         public event EventHandler<NTPEventArgs>? NetworkTimeAcquired;
@@ -69,9 +73,25 @@ namespace UtcMilliTime
 
         private void Initialize()
         {
-            device_boot_time = GetDeviceTime() - device_uptime;
+            // Capture low-res system uptime first (ms since boot)
+            initialSystemUptimeMs = Environment.TickCount64;
+
+            // Estimate initial boot time using low-res uptime (as original)
+            device_boot_time = GetDeviceTime() - initialSystemUptimeMs;
             successfully_synced = false;
             Skew = 0;
+
+            // Capture high-res reference for deltas (simplified to Stopwatch)
+            qpcFrequency = Stopwatch.Frequency;
+            initQpcTimestamp = Stopwatch.GetTimestamp();
+        }
+
+        private static long GetHighResUptime()
+        {
+            long currentQpc = Stopwatch.GetTimestamp();
+            long qpcDelta = currentQpc - initQpcTimestamp;
+            long highResDeltaMs = (qpcDelta * 1000L) / qpcFrequency;
+            return initialSystemUptimeMs + highResDeltaMs;
         }
 
         private static long GetDeviceTime() => DateTime.UtcNow.Ticks / Constants.dotnet_ticks_per_millisecond - Constants.dotnet_to_unix_milliseconds;
@@ -83,7 +103,10 @@ namespace UtcMilliTime
                 return;
             }
 
-            ntpCall = new NTPCallState();
+            ntpCall = new NTPCallState
+            {
+                priorSyncState = successfully_synced  // Added back to capture pre-sync state
+            };
             try
             {
                 Initialize();
@@ -132,8 +155,9 @@ namespace UtcMilliTime
                     return;
                 }
 
-                device_boot_time = timeNow - device_uptime;
-                Skew = timeNow - GetDeviceTime();
+                long highResUptime = GetHighResUptime();
+                device_boot_time = timeNow - highResUptime;
+                Skew = timeNow - GetDeviceTime(); // Simple original calc
                 successfully_synced = ntpCall.methodsCompleted == 3;
                 ntpCall.latency.Stop();
 
