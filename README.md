@@ -6,9 +6,9 @@ On NuGet at: https://www.nuget.org/packages/UtcMilliTime/
 On GitHub at: https://github.com/JPKusumi/UtcMilliTime
 
 ## Versions
-- **2.1.0**: Ready for .NET 10; still good for .NET 8+. Accuracy: 1ms. (Shifted to high resolution precise time.)
-- **2.0.0**: First update in six years went cross-platform. Good for .NET 8+. Accuracy: +/-8ms.
-- **1.0.1**: .NET Standard 2.0 (Windows-only, .NET Framework 4.6.1+, .NET Core 2.0+). Accuracy: +/-8ms due to Windows message pump.
+- **2.1.0**: Ready for .NET 10; still good for .NET 8+. Accuracy: 1ms (improved precision)
+- **2.0.0**: First update in six years went cross-platform. Good for .NET 8+.
+- **1.0.1**: .NET Standard 2.0 (Windows-only, .NET Framework 4.6.1+, .NET Core 2.0+).
 
 ## Overview
 UtcMilliTime provides `Int64` timestamps (milliseconds since 1/1/1970 UTC, excluding leap seconds), avoiding the Year 2038 problem with 64-bit integers. It initializes with device time and syncs with NTP servers (default: `pool.ntp.org`) when permitted, ignoring user-changeable device time thereafter. Supports ISO-8601 string conversion via `ToIso8601String`.
@@ -61,7 +61,7 @@ Clock.Time.NetworkTimeAcquired += (sender, e) => Console.WriteLine($"Synced with
 - **Performance**: Use `Now` for maximum performance; `ToIso8601String` is slower due to `DateTime`.
 
 ### Upgrading from 1.0.1
-Version 2.1.0: Ready for .NET 10; still good for .NET 8+. Accuracy: 1ms. (Shifted to high resolution precise time.) Public API unchanged (static `Clock.Time.Now` still works as a singleton).
+Version 2.1.0: Ready for .NET 10; still good for .NET 8+. Accuracy: 1ms (improved precision) Public API unchanged (static `Clock.Time.Now` still works as a singleton).
 
 Migration: Static usage remains the same; for async Main use `await Clock.CreateAsync()`—it returns the shared clock.
 
