@@ -63,11 +63,7 @@ Clock.Time.NetworkTimeAcquired += (sender, e) => Console.WriteLine($"Synced with
 ### Upgrading from 1.0.1
 Version 2.1.0: Ready for .NET 10; still good for .NET 8+. Accuracy: 1ms. (Shifted to high resolution precise time.) Public API unchanged (static `Clock.Time.Now` still works as a singleton).
 
-<<<<<<< HEAD
-Migration: Update to .NET 8.0+. Static usage remains the same; for async Main, use `await Clock.CreateAsync()`—it returns the shared clock for consistency.
-=======
 Migration: Static usage remains the same; for async Main use `await Clock.CreateAsync()`—it returns the shared clock.
->>>>>>> 97f9163 (v2.1.0 Ready for .NET 10; still good for .NET 8+. Shifted to high resolution precise time.)
 
 ### Technical Details
 Calculates with `Stopwatch.GetTimestamp` for high resolution uptime and `DateTime.UtcNow` for device time. Now is calculated as `device_boot_time + GetHighResUptime`. The clock is a singleton to ensure consistent time across the app.
